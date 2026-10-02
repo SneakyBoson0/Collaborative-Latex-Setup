@@ -1,0 +1,17 @@
+# Normalise line endings so Windows, macOS and Linux produce identical diffs
+* text=auto eol=lf
+
+*.tex text diff=tex
+*.sty text diff=tex
+*.cls text diff=tex
+*.bib text
+*.md  text
+*.ps1 text eol=crlf
+
+# Binaries: never diff or merge line by line
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.eps  binary
+*.svg  text

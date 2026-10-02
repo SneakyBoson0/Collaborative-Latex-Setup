@@ -1,0 +1,39 @@
+% !TEX root = main.tex
+% Shared preamble. Change packages here, never in the section files.
+
+% --- Language: the LAST language listed is the main one -------------------
+% For an English document, swap to: \usepackage[spanish, english]{babel}
+\usepackage[english, spanish, es-noshorthands, es-nodecimaldot, es-tabla]{babel}
+
+% --- Fonts and typography ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% --- Mathematics and units --------------------------------------------------
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{siunitx}
+
+% --- Figures and tables -----------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+
+% --- Bibliography (biblatex + biber) ----------------------------------------
+\usepackage{csquotes}
+\usepackage[backend=biber, style=numeric-comp, sorting=none]{biblatex}
+\addbibresource{refs.bib}
+
+% --- Collaboration notes ----------------------------------------------------
+% Before submitting, change to \usepackage[disable]{todonotes} to hide all notes.
+\setlength{\marginparwidth}{2cm}
+\usepackage[colorinlistoftodos, textsize=small]{todonotes}
+
+% --- Links and cross-references (keep these last, in this order) ------------
+\usepackage[hidelinks]{hyperref}
+\usepackage[spanish, noabbrev]{cleveref}  % lowercase names, Spanish style; use \Cref at sentence start
+% Match cleveref's names to the captions (es-tabla gives "Tabla", not "Cuadro")
+\crefname{section}{sección}{secciones}
+\Crefname{section}{Sección}{Secciones}
+\crefname{table}{tabla}{tablas}
+\Crefname{table}{Tabla}{Tablas}

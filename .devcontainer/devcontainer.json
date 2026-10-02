@@ -1,0 +1,17 @@
+{
+  // Same TeX Live image as CI. Used by GitHub Codespaces (browser, no install)
+  // and by VS Code "Reopen in Container" (needs Docker locally).
+  "name": "LaTeX (TeX Live, same as CI)",
+  "image": "texlive/texlive:latest",
+  "postCreateCommand": "apt-get update && apt-get install -y --no-install-recommends git ca-certificates",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "James-Yu.latex-workshop",
+        "ltex-plus.vscode-ltex-plus",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig"
+      ]
+    }
+  }
+}

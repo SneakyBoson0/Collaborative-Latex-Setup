@@ -1,0 +1,35 @@
+# Build output (CI builds the PDF; don't commit it)
+build/
+/*.pdf
+diff.tex
+
+# LaTeX auxiliary files, in case someone builds outside build/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.tdo
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Editors and OS
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.bak
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

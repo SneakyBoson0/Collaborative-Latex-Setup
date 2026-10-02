@@ -1,0 +1,84 @@
+name: LaTeX
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+# TeX Live image: texlive/texlive:latest (full scheme, current year).
+# Keep it identical in both jobs below and in .devcontainer/devcontainer.json.
+
+jobs:
+  # The reference build. "It compiles here" is the definition of correct.
+  build:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile
+        run: latexmk
+
+      - name: Fail on undefined references or citations
+        run: |
+          if grep -E "(Reference|Citation) .* undefined" build/main.log; then
+            echo "::error::Undefined references or citations, see the lines above."
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: build/main.pdf
+          retention-days: 30
+
+  # "Track changes" PDF for reviewers: base branch vs. this pull request.
+  diff:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+    continue-on-error: true
+    steps:
+      - name: Install git
+        run: apt-get update && apt-get install -y --no-install-recommends git ca-certificates
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build diff PDF
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          bash scripts/diff.sh "origin/${{ github.base_ref }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diff-pdf
+          path: build/diff.pdf
+          retention-days: 30
+
+  # Pushing a tag like v1.0 publishes the PDF as a GitHub Release.
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: pdf
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: main.pdf

@@ -1,0 +1,27 @@
+% !TEX root = ../main.tex
+\section{Métodos}
+\label{sec:methods}
+
+La \cref{fig:ejemplo} muestra una figura de ejemplo y la \cref{tab:ejemplo} una tabla.
+Las figuras van en la carpeta figures/ con nombres en minúscula y sin espacios.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\linewidth]{example-image-a} % replace with figures/<name>
+  \caption{Figura de ejemplo.}
+  \label{fig:ejemplo}
+\end{figure}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Tabla de ejemplo con unidades.}
+  \label{tab:ejemplo}
+  \begin{tabular}{l S[table-format=1.3]}
+    \toprule
+    Magnitud & {Valor (\si{\electronvolt})} \\
+    \midrule
+    $E_0$ & 0.125 \\
+    $E_1$ & 0.375 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

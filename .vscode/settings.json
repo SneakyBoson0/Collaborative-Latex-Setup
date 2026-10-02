@@ -1,0 +1,23 @@
+{
+  // Build with the repo's .latexmkrc so VS Code, the terminal and CI agree.
+  "latex-workshop.latex.tools": [
+    { "name": "latexmk (repo)", "command": "latexmk", "args": ["%DOC%"], "env": {} }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk (repo)", "tools": ["latexmk (repo)"] }
+  ],
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.view.pdf.viewer": "tab",
+
+  // Never auto-reformat: it rewrites other people's lines and causes conflicts.
+  "[latex]": {
+    "editor.formatOnSave": false,
+    "editor.wordWrap": "on"
+  },
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "ltex.language": "es"
+}
