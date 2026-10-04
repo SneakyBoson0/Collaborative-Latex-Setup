@@ -35,4 +35,4 @@ git config core.autocrlf >/dev/null 2>&1 && [[ "$(git config core.autocrlf)" == 
 [[ -f .latexmkrc ]] && ok ".latexmkrc present" || fail "run this from the repo root"
 
 echo
-(( FAILED )) && echo "Some required tools are missing. See docs/SETUP.md." || echo "Ready. Build with: latexmk"
+(( FAILED )) && echo "Some required tools are missing. See section 4 of the README." || echo "Ready. Build with: latexmk"

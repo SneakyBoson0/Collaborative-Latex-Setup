@@ -25,7 +25,13 @@ or on GitHub: *Use this template* → *Create a new repository*.
 
 Then, in the new repo:
 
-1. Replace `OWNER/REPO` in the README badge and links, and the title at the top.
+1. Replace `OWNER/REPO` everywhere in the README (badge and clone command) and
+   the project title at the top:
+
+   ```powershell
+   (Get-Content README.md -Raw) -replace 'OWNER/REPO','your-user/my-new-paper' -replace 'Project title','Real title' |
+     Set-Content README.md -NoNewline -Encoding utf8NoBOM
+   ```
 2. Set title and authors in `main.tex`, rename or delete the example sections.
 3. Language: the last option of `babel` in `preamble.tex` is the main language.
    Change `ltex.language` in `.vscode/settings.json` to match.

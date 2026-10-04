@@ -34,5 +34,5 @@ if ((git config core.autocrlf) -eq "true") { Warn "core.autocrlf=true; .gitattri
 if (Test-Path .latexmkrc) { Ok ".latexmkrc present" } else { Fail "run this from the repo root" }
 
 Write-Host ""
-if ($failed) { Write-Host "Some required tools are missing. See docs/SETUP.md." }
+if ($failed) { Write-Host "Some required tools are missing. See section 4 of the README." }
 else         { Write-Host "Ready. Build with: latexmk" }
