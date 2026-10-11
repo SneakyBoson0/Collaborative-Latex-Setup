@@ -5,9 +5,9 @@
 ## Checklist
 
 - [ ] Builds locally with `latexmk` (or the CI check is green)
-- [ ] One sentence per line in the parts I edited
 - [ ] I did not reflow or reformat paragraphs I didn't change
 - [ ] New references added at the end of `refs.bib`
+- [ ] `\todo` notes I resolved are deleted
 - [ ] New figures in `figures/`, lowercase names without spaces
 - [ ] No build files committed (`build/`, `*.aux`, PDFs of the document)
 

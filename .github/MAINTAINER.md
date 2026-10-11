@@ -35,21 +35,17 @@ Then, in the new repo:
 2. Fill in the *Document data* block of `main.tex` (course, assignment, title,
    authors, emails). Delete the example sections and `figures/damped-oscillator.pdf`
    with its script, but only after the checks in *Test drive* below pass.
-3. Language: the template is in English. For a document in Spanish, in
-   `preamble.tex` replace the babel and cleveref lines with
+3. Language: at the top of `main.tex`, keep `\input{preamble-en}` or switch to
+   `\input{preamble-es}`. For Spanish, also set `"ltex.language": "es"` in
+   `.vscode/settings.json` so the spell checker matches. If the project will only
+   ever use one language, you can delete the other preamble.
 
-   ```latex
-   \usepackage[spanish, es-noshorthands, es-nodecimaldot, es-tabla]{babel}
-   ...
-   \usepackage[spanish, noabbrev]{cleveref}   % lowercase names: "la figura 3"
-   \crefname{table}{tabla}{tablas}\Crefname{table}{Tabla}{Tablas}
-   \crefname{section}{sección}{secciones}\Crefname{section}{Sección}{Secciones}
-   ```
-
-   (`es-tabla` makes captions say "Tabla" instead of "Cuadro"; the `\crefname`
-   lines make cleveref agree.) Then set `"ltex.language": "es"` in
-   `.vscode/settings.json`. Because of `\captionsetup[figure]{name=Fig.}`, figure
-   captions keep saying "Fig."; remove that line for "Figura".
+   The two preambles must stay identical except for the lines marked
+   `[language]`; `git diff --no-index preamble-en.tex preamble-es.tex` shows the
+   differences. Figure captions say "Fig." in both because of
+   `\captionsetup[figure]{name=Fig.}`; remove that line for "Figure"/"Figura".
+   For a decimal comma in Spanish, remove `es-nodecimaldot` and add
+   `\sisetup{output-decimal-marker={,}}` after siunitx.
 4. Engine: `$pdf_mode` in `.latexmkrc` (1 pdflatex, 4 lualatex, 5 xelatex).
    Use lualatex or xelatex only if you need `fontspec`/system-style fonts.
 5. Journal class: put the `.cls`/`.bst` next to `main.tex` if it's not on CTAN, change the
@@ -73,8 +69,10 @@ for each new project.
    `Ctrl+Alt+J` on a source line should jump back to the PDF.
 4. Type a misspelled word in a section: LTeX+ should underline it after a few
    seconds (the first time it downloads its language server).
-5. Push the repository: the *LaTeX* workflow should turn green and offer the
-   `pdf` artifact.
+5. Push the repository: the *LaTeX* workflow should turn green, and a few minutes
+   later the README's *Read the latest PDF* link should open the document. That
+   link points to the `pdf` branch, which the workflow's `publish` job rewrites
+   after every successful build of `main`.
 6. Test the pull-request flow:
 
    ```powershell
@@ -98,6 +96,7 @@ for each new project.
 - *Settings* → *Branches* → *Add rule* for `main`:
   - Require a pull request before merging (1 approval if you want reviews).
   - Require status checks to pass → select **build**.
+  Don't protect the `pdf` branch: the workflow overwrites it on every build of `main`.
   This keeps `main` always compilable.
 - *Settings* → *Actions* → *General*: Actions enabled (default).
 
@@ -122,7 +121,7 @@ it jumps to the new year. Two ways to handle that:
   `texlive/texlive:latest` with `texlive/texlive:TL2026-historic` (adjust year) in
   `.github/workflows/build.yml` (two places) and `.devcontainer.json`.
 
-When the CI moves to a new year, update the year mentioned in README section 4.5.
+When the CI moves to a new year, update the year mentioned in README section 2, step 4.
 
 ## Keeping old projects in sync with template improvements
 
