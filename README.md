@@ -19,9 +19,9 @@ Everything below is for people who will **write** or **review**.
 ## Contents
 
 1. [Coming from Overleaf](#1-coming-from-overleaf)
-2. [Choose how to work](#2-choose-how-to-work)
-3. [Setup in the browser (Codespaces)](#3-setup-in-the-browser-codespaces)
-4. [Setup on your computer](#4-setup-on-your-computer)
+2. [Before you start](#2-before-you-start)
+3. [Setup with VS Code](#3-setup-with-vs-code)
+4. [Setup with another editor](#4-setup-with-another-editor)
 5. [Your first contribution, step by step](#5-your-first-contribution-step-by-step)
 6. [Everyday work](#6-everyday-work)
 7. [Reviewing other people's changes](#7-reviewing-other-peoples-changes)
@@ -57,57 +57,27 @@ overwrites anyone else, and every change has an author, a date and a reason.
 | Spell check | The LTeX+ extension (grammar and spelling) |
 | Share a read-only link | Ask the project owner to add you with *Read* access, or send the Release PDF |
 
-## 2. Choose how to work
+## 2. Before you start
 
-You can pick any of these. They all produce the same document and they can be
-mixed within one project: one person writes locally, another reviews from the
-browser.
-
-| | What you install | Best for |
-|---|---|---|
-| **A. Browser (Codespaces)** | Nothing | Occasional edits, reviewing, working from a lab or library computer |
-| **B. Your computer** | TeX Live, Git, VS Code (about 1 hour, once) | Anyone writing regularly. Fastest, works offline |
-| **C. Another editor** | A TeX distribution with `latexmk`, Git | People attached to TeXstudio, Vim, Emacs... |
-
-Whatever you choose, you need:
+You need:
 
 1. A free [GitHub account](https://github.com/signup).
 2. An invitation to this repository. Send your GitHub username to the project
    owner, then accept the invitation that arrives by email (or at
    <https://github.com/notifications>).
+3. An editor. This guide uses **VS Code** (section 3), which builds the PDF on
+   every save and shows it next to the source. If you prefer TeXstudio, Vim,
+   Emacs or another editor, see section 4. Both produce the same document, so
+   collaborators can use different editors in the same project.
 
-## 3. Setup in the browser (Codespaces)
+## 3. Setup with VS Code
 
-1. Open this repository on GitHub.
-2. Click the green **Code** button → **Codespaces** tab → **Create codespace on main**.
-3. Wait. The first start takes a few minutes because it installs a complete
-   TeX Live. You get VS Code running in your browser, with the project open and
-   every extension already installed.
-4. Open any file in `sections/` and press `Ctrl+S`. The PDF builds; open it with
-   `Ctrl+Alt+V`.
+This takes about an hour, once. Instructions are for Windows, with macOS and
+Linux notes where they differ. Do the steps in order. Commands go in
+**PowerShell** on Windows (search for *PowerShell* in the Start menu) or
+**Terminal** on macOS/Linux.
 
-That's all. Now go to [section 5](#5-your-first-contribution-step-by-step).
-
-Things to know about Codespaces:
-
-- Your codespace stays. Next time, go to **Code** → **Codespaces** and click the
-  existing one instead of creating a new one. Changes you haven't committed are
-  still there.
-- It stops by itself after about 30 minutes without activity. Stop it yourself
-  when you finish: **Code** → **Codespaces** → `...` → *Stop codespace*.
-- Free GitHub accounts include a monthly allowance of Codespaces usage (enough for
-  dozens of hours on the default machine). Students can get more through
-  [GitHub Education](https://education.github.com/).
-- Delete codespaces you no longer use; stored codespaces also count against the
-  allowance.
-
-## 4. Setup on your computer
-
-Instructions are for Windows, with macOS and Linux notes where they differ. Do
-the steps in order. Commands go in **PowerShell** on Windows (search for
-*PowerShell* in the Start menu) or **Terminal** on macOS/Linux.
-
-### 4.1 Install TeX Live
+### 3.1 Install TeX Live
 
 TeX Live is the LaTeX distribution GitHub uses to build the document, so using it
 locally gives the fewest surprises. It already includes everything the project
@@ -156,7 +126,7 @@ Check the installation in a **new** PowerShell window:
 latexmk --version
 ```
 
-### 4.2 Install Git and the GitHub command-line tool
+### 3.2 Install Git and the GitHub command-line tool
 
 **Windows**
 
@@ -180,12 +150,12 @@ gh auth login
 For `gh auth login` choose *GitHub.com* → *HTTPS* → *Login with a web browser*,
 and follow the instructions. After this, Git will never ask for your password.
 
-### 4.3 Install VS Code
+### 3.3 Install VS Code
 
 Download it from <https://code.visualstudio.com> and install it. On Windows, tick
 *Add "Open with Code" action* and *Add to PATH* during installation.
 
-### 4.4 Download the project
+### 3.4 Download the project
 
 Choose a folder for your projects (this guide uses `Documents\GitHub`) and clone
 the repository into it:
@@ -205,7 +175,7 @@ When VS Code opens:
    *Install*. There are two: **LaTeX Workshop**, which builds and shows the
    PDF, and **LTeX+**, which checks spelling and grammar.
 
-### 4.5 Check that everything works
+### 3.5 Check that everything works
 
 In VS Code's terminal (`` Ctrl+` ``):
 
@@ -222,17 +192,41 @@ that difference is the first suspect.
 Then open `sections/01-introduction.tex`, press `Ctrl+S`, and open the PDF with
 `Ctrl+Alt+V`. If you see the document, the setup is complete.
 
-### 4.6 Option C: another editor
+## 4. Setup with another editor
 
-Clone the repository as in 4.4 and build with `latexmk` from the repository's main
-folder. It reads the build settings from `.latexmkrc`. Each file in `sections/`
-starts with `% !TEX root = ../main.tex`, which TeXstudio and TeXworks understand,
-so compiling from a section file compiles the whole document.
+Any editor works, as long as the document is built with `latexmk`.
+
+1. Install TeX Live and Git as in sections 3.1 and 3.2.
+2. Download the project:
+
+   ```powershell
+   mkdir $HOME\Documents\GitHub -Force
+   cd $HOME\Documents\GitHub
+   gh repo clone OWNER/REPO
+   cd REPO
+   ```
+
+3. Build from the project's top folder:
+
+   ```powershell
+   latexmk
+   ```
+
+   It reads the build settings from `.latexmkrc` and writes the PDF to
+   `build/main.pdf`. `latexmk -pvc` keeps rebuilding every time you save.
+
+If your editor has its own compile button, make it run `latexmk` from the top
+folder instead of calling `pdflatex` directly. Otherwise the bibliography and the
+output folder won't match everyone else's. Each file in `sections/` starts with
+`% !TEX root = ../main.tex`, which TeXstudio and TeXworks understand, so compiling
+from a section file compiles the whole document.
+
+The step-by-step guide in section 5 uses VS Code's buttons. With another editor,
+use the terminal commands in section 11 instead, or your editor's own Git tools.
 
 ## 5. Your first contribution, step by step
 
-This walkthrough uses VS Code's buttons, so it works the same locally and in
-Codespaces. The equivalent terminal commands are in
+This walkthrough uses VS Code's buttons. The equivalent terminal commands are in
 [section 11](#11-git-cheat-sheet).
 
 The idea: you never write directly on `main` (the official version). You make a
@@ -443,7 +437,7 @@ changing it.
 | `.gitattributes` | Makes line endings identical on Windows, macOS and Linux |
 | `.vscode/settings.json` | Tells LaTeX Workshop to build with `.latexmkrc` and disables auto-formatting |
 | `.vscode/extensions.json` | The extensions VS Code offers to install |
-| `.devcontainer.json` | The environment Codespaces creates (same TeX Live as GitHub's build) |
+| `.devcontainer.json` | Settings for GitHub's online editor. Not needed for working locally; ignore it |
 | `.github/workflows/build.yml` | The automatic build (see below) |
 | `.github/pull_request_template.md` | The checklist that appears in every new pull request |
 | `.github/diff.sh`, `.github/diff.ps1` | Create a marked-up PDF comparing two versions (section 6.8) |
@@ -460,8 +454,8 @@ document is correct, whatever is installed on anyone's computer.
 
 **Does everyone need the same LaTeX installation?**
 No. GitHub's build is the reference. TeX Live of the current year matches it best,
-an up-to-date MiKTeX is fine in practice, and Codespaces is identical by
-construction. `pdflatex --version` tells you which one you have.
+and an up-to-date MiKTeX is fine in practice. `pdflatex --version` tells you which
+one you have.
 
 **It compiles on my computer but the check on GitHub is red.**
 Click the ✗ → *Details* to read the log. The usual causes:
@@ -499,7 +493,7 @@ Then ask for help to reset `main`, or run
 `git switch main` and `git reset --hard origin/main`.
 
 **Git asks for a password.**
-Run `gh auth login` again (section 4.2).
+Run `gh auth login` again (section 3.2).
 
 **The whole file appears as changed although I edited one line.**
 A line-ending problem. Run `git config --global core.autocrlf false`, then
@@ -507,8 +501,7 @@ A line-ending problem. Run `git config --global core.autocrlf false`, then
 
 **Can I keep using Overleaf?**
 Only if the project owner links the Overleaf project to this repository (an
-Overleaf premium feature). Otherwise, Codespaces gives the same nothing-to-install
-experience.
+Overleaf premium feature).
 
 **Where is the PDF?**
 On your computer: `build/main.pdf`. On GitHub: Actions → newest green run →
