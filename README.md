@@ -233,6 +233,7 @@ git pull
 | Language (English or Spanish) | The top of `main.tex`: keep `\input{preamble-en}` or `\input{preamble-es}` |
 | Show or hide co-author notes | The top of `main.tex` ([section 5](#5-notes-between-co-authors)) |
 | The text | `sections/` |
+| Code, simulations, data, guide papers | `resources/` ([its own guide](resources/README.md)) |
 
 ### Common tasks
 
@@ -249,6 +250,10 @@ and add `\input{sections/04-results}` in `main.tex`.
 **Add a figure.** Put the file in `figures/` and write
 `\includegraphics[width=0.7\linewidth]{energy-spectrum}` (no folder, no extension).
 If a script makes the plot, keep the script next to it with the same name.
+
+**Add code, data or a guide paper.** Put it in `resources/`, which is never
+compiled into the PDF. See [resources/README.md](resources/README.md) for how to
+organise it and what not to upload.
 
 **Add a reference.** Copy the BibTeX entry (Google Scholar → *Cite* → *BibTeX*),
 check it's not already in `refs.bib`, paste it at the end, and set its key to
@@ -393,6 +398,7 @@ bash .github/diff.sh v1.0      # macOS / Linux
 | `sections/` | The text, one file per section |
 | `figures/` | Images, plots, and the scripts that make the plots |
 | `refs.bib` | The bibliography |
+| `resources/` | Code, simulations, data, guide papers and anything else that isn't in the PDF ([guide](resources/README.md)) |
 | `preamble-en.tex`, `preamble-es.tex` | Formatting, packages and commands, in English and Spanish. Change both together |
 
 **What you can ignore**
