@@ -1,9 +1,17 @@
 % !TEX root = main.tex
-% Shared preamble: formatting, packages and macros.
-% Document data (course, title, authors, emails) lives in main.tex.
+% Spanish preamble: formatting, packages and macros.
+% Chosen in main.tex with \input{preamble-es}. Its twin, preamble-en.tex, is
+% identical except for the lines marked [language]: when you change one file,
+% make the same change in the other.
+% Document data (course, title, authors, emails) and the co-author notes switch
+% live in main.tex. PACKAGES.md explains every package with examples.
 
 % ------- Language and fonts ---------------------------------------
-\usepackage[english]{babel}
+% [language] Spanish, with options that avoid clashes and keep math conventions:
+%   es-noshorthands: disables shortcuts such as "a and <<, which break other packages
+%   es-nodecimaldot: keeps 3.14 as typed (without it, babel prints 3,14 in math)
+%   es-tabla:        captions say "Tabla" instead of "Cuadro"
+\usepackage[spanish, es-noshorthands, es-nodecimaldot, es-tabla]{babel}
 \usepackage[T1]{fontenc}       % correct hyphenation and copy-paste of accented words
 \usepackage{lmodern}
 \usepackage{microtype}         % subtle spacing improvements, fewer overfull lines
@@ -27,7 +35,17 @@
 \usepackage{mathtools}         % \coloneqq and other extensions to amsmath
 \usepackage{amssymb}
 \usepackage{mathrsfs}          % \mathscr
-\usepackage{siunitx}           % \qty{9.8}{m/s^2}, aligned number columns
+
+% physics and siunitx both define \qty. siunitx's version is kept:
+% \qty{9.81}{m/s^2} writes a quantity with units. For physics' auto-sized
+% brackets use \quantity(...), \pqty{...}, \bqty{...}, \abs{...}, \norm{...}.
+\ExplSyntaxOn                  % hides the notice siunitx prints about this
+\msg_redirect_name:nnn { siunitx } { physics-pkg } { none }
+\ExplSyntaxOff
+\usepackage{siunitx}           % \qty{9.81}{m/s^2}, \unit{kg}, aligned number columns
+\usepackage{physics}           % \dv, \pdv, \abs, \norm, \ev, \mel, \comm, \vb, ...
+\usepackage{braket}            % \bra, \ket, \braket{a|b}, \set{x | x>0}; overrides physics' \bra/\ket
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
 
 % ------- Figures, tables and layout -------------------------------
 \usepackage{graphicx}
@@ -43,11 +61,6 @@
 \usepackage{csquotes}
 \usepackage[backend=biber, style=numeric-comp, sorting=none]{biblatex}
 \addbibresource{refs.bib}
-
-% ------- Notes between co-authors ---------------------------------
-% Before submitting, change to \usepackage[disable]{todonotes} to hide all notes.
-\usepackage{todonotes}
-\setuptodonotes{inline, color=Orange1!40}   % inline: the 20 mm margins are too narrow
 
 % ------- Header and footer ----------------------------------------
 \usepackage{fancyhdr}
@@ -76,7 +89,14 @@
     filecolor = magenta,
     urlcolor = red,
     anchorcolor = cyan}
-\usepackage[capitalise]{cleveref}   % \cref{fig:x} -> Fig. 1, \cref{eq:x} -> Eq. (1)
+% [language] Spanish style, lowercase: \cref{fig:x} -> figura 1, \cref{eq:x} -> ecuación (1).
+% Use \Cref at the start of a sentence: Figura 1. The names below match es-tabla
+% and replace cleveref's default "apartado".
+\usepackage[spanish]{cleveref}
+\crefname{table}{tabla}{tablas}
+\Crefname{table}{Tabla}{Tablas}
+\crefname{section}{sección}{secciones}
+\Crefname{section}{Sección}{Secciones}
 
 % ------- Author marks ---------------------------------------------
 % \authormark{id}{symbol}: superscript after a name, links to that author's email.

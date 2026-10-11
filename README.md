@@ -47,7 +47,7 @@ overwrites anyone else, and every change has an author, a date and a reason.
 | PDF panel | `Ctrl+Alt+V` in VS Code |
 | Double-click the PDF to jump to the source | `Ctrl+click` on the PDF |
 | Jump from source to PDF | `Ctrl+Alt+J` |
-| Several people typing at once | Each person on a branch, merged by pull request (section 5). For a live session, VS Code Live Share (section 6.9) |
+| Several people typing at once | Each person on a branch, merged by pull request (section 5). For a live session, VS Code Live Share (section 6.10) |
 | Track changes | A PDF with insertions in blue and deletions in red, generated for every pull request (section 7) |
 | Comments | Comments on specific lines of a pull request, plus `\todo{...}` notes in the text |
 | History | Every commit, browsable on GitHub or in VS Code's *Timeline* |
@@ -297,6 +297,12 @@ the emails in the first-page footer; clicking the symbol next to a name jumps to
 that email. When adding an author, add them in both places with matching id and
 symbol.
 
+The document's language is chosen at the very top of `main.tex`, by keeping one of
+two lines active: `\input{preamble-en}` for English or `\input{preamble-es}` for
+Spanish. It changes the automatic words (Abstract/Resumen, the date, "Fig. 1" or
+"figura 1" in references), not your text. The spell checker's language is set in
+`.vscode/settings.json` (`"ltex.language": "en-US"` or `"es"`).
+
 ### 6.3 Adding a section
 
 Create `sections/04-results.tex` starting with these lines:
@@ -331,16 +337,25 @@ Cite it with `\cite{hawking1975particle}`.
 
 Label everything with a prefix (`sec:`, `eq:`, `fig:`, `tab:`) and refer with
 `\cref`, which writes the word for you: `\cref{fig:spectrum}` gives "Fig. 3" and
-`\cref{eq:energy}` gives "Eq. (2)". At the start of a sentence use `\Cref`, which
-writes the full word: "Figure 3".
+`\cref{eq:energy}` gives "Eq. (2)" (in Spanish, "figura 3" and "ecuación (2)").
+At the start of a sentence use `\Cref`, which writes the full, capitalized word:
+"Figure 3".
 
 ### 6.7 Notes to co-authors
 
 `\todo{Check this sign.}` puts a colored note box in the text (the margins are
-too narrow for margin notes). Before submission the project owner hides them all with one change in
-`preamble.tex`.
+too narrow for margin notes). All notes can be hidden at once, for example before
+submitting, by adding `disable` to the line that loads todonotes at the top of
+`main.tex`: `\usepackage[disable]{todonotes}`. Removing it brings them back.
 
-### 6.8 History
+### 6.8 Package commands
+
+[PACKAGES.md](PACKAGES.md) lists every package the template loads, with examples:
+units (`\qty{9.81}{m/s^2}`), derivatives (`\dv{f}{x}`), Dirac notation
+(`\braket{\phi|\psi}`), tables, subfigures and more. Check it before adding a
+package: what you need may already be there.
+
+### 6.9 History
 
 - One file: right-click it → *Open Timeline*, or the *Timeline* section at the
   bottom of the Explorer panel. Click an entry to see what changed.
@@ -361,7 +376,7 @@ The result is `build/diff.pdf`. If Windows refuses to run the script, allow loca
 scripts once with `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` and try
 again.
 
-### 6.9 Writing at the same time as someone else
+### 6.10 Writing at the same time as someone else
 
 For most work, separate branches are enough: two people can edit different parts
 of the same file at the same time, and Git combines the changes when both are
@@ -373,7 +388,7 @@ extension, clicks *Live Share* in the status bar and sends the link; the others
 join from VS Code or a browser and type in the same files in real time. The host
 commits at the end.
 
-### 6.10 Keeping your branch up to date
+### 6.11 Keeping your branch up to date
 
 If `main` changed while you were working on your branch, bring those changes in:
 *Source Control* → `...` → *Branch* → *Merge...* → choose `origin/main`. If both
@@ -403,7 +418,8 @@ These are what make collaboration through Git painless. Please follow them.
 2. **Don't reformat text you didn't change.** No reflowing, re-indenting or
    auto-formatting of other people's paragraphs: it turns your one-word fix into a
    hundred changed lines and causes conflicts.
-3. **Packages and macros go in `preamble.tex`**, nowhere else.
+3. **Packages and macros go in the preambles**, nowhere else, and in **both**
+   `preamble-en.tex` and `preamble-es.tex`, so the language switch keeps working.
 4. **References go at the end of `refs.bib`**, with the key convention from 6.5.
 5. **Figures go in `figures/`**, lowercase, no spaces, no accents.
 6. **Labels have a prefix** and are referenced with `\cref`.
@@ -422,8 +438,9 @@ changing it.
 
 | | |
 |---|---|
-| `main.tex` | Skeleton: title, authors, the list of sections, bibliography |
-| `preamble.tex` | All packages and custom commands |
+| `main.tex` | Language choice, notes on/off, title and authors, the list of sections, bibliography |
+| `preamble-en.tex`, `preamble-es.tex` | All packages and custom commands, for English and Spanish. Identical except for the language lines |
+| `PACKAGES.md` | What each package does, with examples |
 | `sections/` | The text, one file per section |
 | `figures/` | Images and plots, and the scripts that generate plots |
 | `refs.bib` | Bibliography entries |
@@ -440,7 +457,7 @@ changing it.
 | `.devcontainer.json` | Settings for GitHub's online editor. Not needed for working locally; ignore it |
 | `.github/workflows/build.yml` | The automatic build (see below) |
 | `.github/pull_request_template.md` | The checklist that appears in every new pull request |
-| `.github/diff.sh`, `.github/diff.ps1` | Create a marked-up PDF comparing two versions (section 6.8) |
+| `.github/diff.sh`, `.github/diff.ps1` | Create a marked-up PDF comparing two versions (section 6.9) |
 | `.github/MAINTAINER.md` | Notes for the project owner; collaborators can ignore it |
 
 **The automatic build ("CI").** Every time someone pushes, GitHub compiles the

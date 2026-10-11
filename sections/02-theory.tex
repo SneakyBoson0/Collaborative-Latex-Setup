@@ -58,3 +58,24 @@ For $x(0) = x_0$ and $\dot{x}(0) = 0$, \cref{eq:solution} gives $x_0 = A\cos\var
 
 The commands \verb|\R|, \verb|\N| and \verb|\sub| defined in the preamble should render as $\R$, $\N$ and $\N \sub \R$, and \verb|\mathscr| as $\mathscr{L}$.
 Quantities with units are written with siunitx, for example a period of \qty{2.0}{s} or an acceleration of \qty{9.81}{m.s^{-2}}.
+
+The physics and braket packages are checked with the quantum version of the same oscillator.
+Its Hamiltonian is
+\begin{equation}
+   \hat{H} = \frac{\hat{p}^2}{2m} + \frac{1}{2} m\omega_0^2 \hat{x}^2 ,
+   \label{eq:quantum-hamiltonian}
+\end{equation}
+its energies form the set $\set{E_n | n \in \N}$ with $E_n = \hbar\omega_0 \pqty{n + \frac{1}{2}}$, and a normalized state $\ket{\psi}$ satisfies $\braket{\psi|\psi} = \int \abs{\psi(x)}^2 \dd{x} = 1$.
+The expectation value written with physics, $\ev{\hat{H}}{\psi}$, and with braket, $\braket{\psi | \hat{H} | \psi}$, should look identical.
+
+Starting from $\comm{\hat{x}}{\hat{p}} = i\hbar$, and since $\hat{x}$ commutes with the potential term of \cref{eq:quantum-hamiltonian},
+\begin{align}
+   \comm{\hat{x}}{\hat{H}} &= \frac{1}{2m}\comm{\hat{x}}{\hat{p}^2} \nonumber \\
+                          &= \frac{1}{2m}\pqty{\hat{p}\comm{\hat{x}}{\hat{p}} + \comm{\hat{x}}{\hat{p}}\hat{p}} \nonumber \\
+                          &= \frac{1}{2m}\pqty{i\hbar\,\hat{p} + i\hbar\,\hat{p}} = \frac{i\hbar}{m}\,\hat{p} .
+\end{align}
+The Heisenberg equation then gives
+\begin{equation}
+   \dv{t}\ev{\hat{x}} = \frac{1}{i\hbar}\ev{\comm{\hat{x}}{\hat{H}}} = \frac{1}{i\hbar}\,\frac{i\hbar}{m}\ev{\hat{p}} = \frac{\ev{\hat{p}}}{m} ,
+\end{equation}
+the quantum counterpart of $\dot{x} = p/m$, and partial derivatives such as $\pdv{\psi}{x}$ and $\pdv[2]{\psi}{x}$ should appear as fractions with $\partial$.

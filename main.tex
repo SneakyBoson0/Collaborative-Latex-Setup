@@ -1,5 +1,15 @@
 \documentclass[11pt,letterpaper]{article}
-\input{preamble}
+
+% ------- Language: keep exactly one of these two lines active -----
+\input{preamble-en}   % English
+% \input{preamble-es} % Español
+
+% ------- Notes between co-authors ---------------------------------
+% \todo{...} puts a colored note in the text.
+% To hide every note (for example before submitting), add "disable":
+%    \usepackage[disable]{todonotes}
+\usepackage{todonotes}
+\setuptodonotes{inline, color=Orange1!40}   % inline: the 20 mm margins are too narrow
 
 % ------- Document data: edit here ---------------------------------
 \newcommand{\course}{Course name}
