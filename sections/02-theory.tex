@@ -1,0 +1,60 @@
+% !TEX root = ../main.tex
+\section{Theory}
+\label{sec:theory}
+
+This section checks numbered equations, the custom commands from the preamble, and the mathematical packages.
+
+Let $x\colon \R \to \R$ be the position of a mass $m$ attached to a spring of constant $k$ and subject to a friction force proportional to the velocity, with coefficient $b$.
+Newton's second law gives
+\begin{equation}
+   m\ddot{x} + b\dot{x} + kx = 0 .
+   \label{eq:motion}
+\end{equation}
+Dividing by $m$ and defining
+\begin{equation}
+   \gamma \coloneqq \frac{b}{2m}, \qquad \omega_0 \coloneqq \sqrt{\frac{k}{m}},
+   \label{eq:definitions}
+\end{equation}
+\cref{eq:motion} becomes
+\begin{equation}
+   \ddot{x} + 2\gamma\dot{x} + \omega_0^2 x = 0 .
+   \label{eq:motion-normalized}
+\end{equation}
+
+We look for solutions of the form $x(t) = e^{rt}$ with $r \in \mathbb{C}$.
+Then $\dot{x} = r e^{rt}$ and $\ddot{x} = r^2 e^{rt}$, and substituting into \cref{eq:motion-normalized} gives
+\begin{equation}
+   \left(r^2 + 2\gamma r + \omega_0^2\right) e^{rt} = 0 .
+\end{equation}
+Since $e^{rt} \neq 0$ for every $t$, the exponent must satisfy the characteristic equation
+\begin{equation}
+   r^2 + 2\gamma r + \omega_0^2 = 0 ,
+   \label{eq:characteristic}
+\end{equation}
+whose roots are
+\begin{align}
+   r_\pm &= \frac{-2\gamma \pm \sqrt{4\gamma^2 - 4\omega_0^2}}{2} \nonumber \\
+         &= -\gamma \pm \sqrt{\gamma^2 - \omega_0^2} .
+\end{align}
+In the underdamped case, $\gamma < \omega_0$, the square root is imaginary.
+Writing $\gamma^2 - \omega_0^2 = -\omega_d^2$ with
+\begin{equation}
+   \omega_d \coloneqq \sqrt{\omega_0^2 - \gamma^2} > 0 ,
+   \label{eq:omega-d}
+\end{equation}
+the roots are $r_\pm = -\gamma \pm i\omega_d$.
+The general real solution is a combination of $e^{r_+ t}$ and $e^{r_- t}$, which can be written as
+\begin{equation}
+   x(t) = A\, e^{-\gamma t} \cos\left(\omega_d t + \varphi\right),
+   \label{eq:solution}
+\end{equation}
+where the amplitude $A$ and the phase $\varphi$ are fixed by the initial conditions.
+For $x(0) = x_0$ and $\dot{x}(0) = 0$, \cref{eq:solution} gives $x_0 = A\cos\varphi$, and differentiating,
+\begin{equation}
+   \dot{x}(0) = -A\gamma\cos\varphi - A\omega_d\sin\varphi = 0
+   \quad\Longrightarrow\quad
+   \tan\varphi = -\frac{\gamma}{\omega_d} .
+\end{equation}
+
+The commands \verb|\R|, \verb|\N| and \verb|\sub| defined in the preamble should render as $\R$, $\N$ and $\N \sub \R$, and \verb|\mathscr| as $\mathscr{L}$.
+Quantities with units are written with siunitx, for example a period of \qty{2.0}{s} or an acceleration of \qty{9.81}{m.s^{-2}}.

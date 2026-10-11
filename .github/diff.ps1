@@ -1,7 +1,7 @@
 # Build a "track changes" PDF comparing an older revision with the current files.
-#   .\scripts\diff.ps1                 # vs. previous commit
-#   .\scripts\diff.ps1 v1.0            # vs. a tag
-#   .\scripts\diff.ps1 origin/main
+#   .\.github\diff.ps1                 # vs. previous commit
+#   .\.github\diff.ps1 v1.0            # vs. a tag
+#   .\.github\diff.ps1 origin/main
 # Output: build\diff.pdf
 param([string]$Rev = "HEAD~1")
 $ErrorActionPreference = "Stop"

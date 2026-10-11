@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Build a "track changes" PDF comparing an older revision with the current files.
-#   bash scripts/diff.sh            # vs. previous commit
-#   bash scripts/diff.sh v1.0       # vs. a tag
-#   bash scripts/diff.sh origin/main
+#   bash .github/diff.sh            # vs. previous commit
+#   bash .github/diff.sh v1.0       # vs. a tag
+#   bash .github/diff.sh origin/main
 # Output: build/diff.pdf
 set -euo pipefail
 

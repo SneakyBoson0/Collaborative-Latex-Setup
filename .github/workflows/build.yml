@@ -16,7 +16,7 @@ defaults:
     shell: bash
 
 # TeX Live image: texlive/texlive:latest (full scheme, current year).
-# Keep it identical in both jobs below and in .devcontainer/devcontainer.json.
+# Keep it identical in both jobs below and in .devcontainer.json.
 
 jobs:
   # The reference build. "It compiles here" is the definition of correct.
@@ -60,7 +60,7 @@ jobs:
       - name: Build diff PDF
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          bash scripts/diff.sh "origin/${{ github.base_ref }}"
+          bash .github/diff.sh "origin/${{ github.base_ref }}"
 
       - uses: actions/upload-artifact@v4
         with:

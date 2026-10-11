@@ -1,19 +1,38 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,letterpaper]{article}
 \input{preamble}
 
-\title{Título del proyecto}
-\author{Autor Uno \and Autor Dos}
+% ------- Document data: edit here ---------------------------------
+\newcommand{\course}{Course name}
+\newcommand{\assignment}{Assignment name}
+
+\title{\textbf{Template test: damped harmonic oscillator}}
+\author{%
+   Author One\authormark{author1}{\dag},
+   Author Two\authormark{author2}{*},
+   Author Three\authormark{author3}{\oplus}}
 \date{\today}
 
+% Emails for the first-page footer.
+% The id and the symbol of each author must match those in \author above.
+\newcommand{\authoremails}{%
+   \authoremail{author1}{\dag}{author1@unal.edu.co},\quad
+   \authoremail{author2}{*}{author2@unal.edu.co},\quad
+   \authoremail{author3}{\oplus}{author3@unal.edu.co}}
+
+% ------------------------------------------------------------------
 \begin{document}
 \maketitle
+\thispagestyle{firstpage}   % must come after \maketitle, which resets the page style
 
 \begin{abstract}
-Resumen del trabajo en unas pocas frases.
+This document is a working example that checks every part of the template.
+Each section says what it tests and what you should see in the PDF if that part works.
+Once the checks pass, delete the files in sections/ and the example figure, and start writing.
 \end{abstract}
 
 \input{sections/01-introduction}
-\input{sections/02-methods}
+\input{sections/02-theory}
+\input{sections/03-figures-and-tables}
 
 \printbibliography
 \end{document}

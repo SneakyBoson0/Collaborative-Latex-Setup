@@ -15,8 +15,4 @@ $pdflatex = "pdflatex $flags %O %S";
 $lualatex = "lualatex $flags %O %S";
 $xelatex  = "xelatex $flags %O %S";
 
-# Project-specific .sty/.cls/.bst files live in ./tex
-ensure_path('TEXINPUTS', './tex//');
-ensure_path('BSTINPUTS', './tex//');
-
 $clean_ext = 'synctex.gz run.xml bbl bcf nav snm vrb tdo';

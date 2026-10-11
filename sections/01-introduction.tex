@@ -1,18 +1,24 @@
 % !TEX root = ../main.tex
-\section{Introducción}
+\section{Introduction}
 \label{sec:intro}
 
-Este archivo es un ejemplo de cómo escribir en este repositorio.
-Cada oración va en su propia línea, porque Git compara línea por línea.
-Así, si alguien corrige una palabra, el cambio aparece en una sola línea y no en todo el párrafo.
+This section checks the basic text features.
+It is written with one sentence per line, as every file in this repository should be.
+In the PDF the sentences still form a normal paragraph, because LaTeX only starts a new paragraph at a blank line.
 
-La radiación de un agujero negro fue descrita por Hawking~\cite{hawking1975particle}.
-Para la electrodinámica clásica se puede consultar el texto de Jackson~\cite{jackson1999classical}.
+A second paragraph should appear after a blank space and without indentation, which shows that the parskip package is active.
+The first page should have no header, a rule above the footer, and the three author emails at the bottom left.
+Clicking a symbol next to an author name should jump to the corresponding email, and clicking an email should open your mail program.
+From the second page on, the header should show the assignment on the left and the course on the right, with a thick rule below.
 
-La energía de un oscilador armónico cuántico es
-\begin{equation}
-  E_n = \hbar\omega\left(n + \frac{1}{2}\right),
-  \label{eq:oscilador}
-\end{equation}
-y en la \cref{sec:methods} se usa la \cref{eq:oscilador} para estimar valores numéricos.
-\todo{Ejemplo de nota para coautores: revisar la notación.}
+The bibliography works if the following citations appear as numbers in brackets and not as question marks.
+Hawking showed that black holes emit thermal radiation~\cite{hawking1975particle}, and the classical theory of the oscillator used below can be found in any electrodynamics or mechanics text~\cite{jackson1999classical,goldstein2002classical}.
+The citation links should be dark red.
+
+Cross-references work if the following sentence contains working blue links with the right names and numbers.
+The model is derived in \cref{sec:theory}, its solution is \cref{eq:solution}, and the results are in \cref{fig:oscillator,tab:parameters}.
+
+Notes between co-authors appear as colored boxes inside the text:
+\todo{This is an example note. Delete it, or hide all notes before submitting by loading todonotes with the disable option.}
+
+External links should be red, for example the \href{https://tug.org/texlive/}{TeX Live home page}.

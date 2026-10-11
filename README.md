@@ -47,14 +47,14 @@ overwrites anyone else, and every change has an author, a date and a reason.
 | PDF panel | `Ctrl+Alt+V` in VS Code |
 | Double-click the PDF to jump to the source | `Ctrl+click` on the PDF |
 | Jump from source to PDF | `Ctrl+Alt+J` |
-| Several people typing at once | Each person on a branch, merged by pull request (section 5). For a live session, VS Code Live Share (section 6.8) |
+| Several people typing at once | Each person on a branch, merged by pull request (section 5). For a live session, VS Code Live Share (section 6.9) |
 | Track changes | A PDF with insertions in blue and deletions in red, generated for every pull request (section 7) |
 | Comments | Comments on specific lines of a pull request, plus `\todo{...}` notes in the text |
 | History | Every commit, browsable on GitHub or in VS Code's *Timeline* |
 | Labelled versions | Git tags such as `v1.0`, published as Releases |
 | Upload a file | Put it in the folder (e.g. `figures/`) and commit it |
 | Download PDF | `build/main.pdf` on your computer, or Releases / Artifacts on GitHub |
-| Spell check | The LTeX+ extension (grammar and spelling, Spanish and English) |
+| Spell check | The LTeX+ extension (grammar and spelling) |
 | Share a read-only link | Ask the project owner to add you with *Read* access, or send the Release PDF |
 
 ## 2. Choose how to work
@@ -67,8 +67,7 @@ browser.
 |---|---|---|
 | **A. Browser (Codespaces)** | Nothing | Occasional edits, reviewing, working from a lab or library computer |
 | **B. Your computer** | TeX Live, Git, VS Code (about 1 hour, once) | Anyone writing regularly. Fastest, works offline |
-| **C. Your computer, inside a container** | Docker, Git, VS Code | Getting a build identical to GitHub's, bit for bit |
-| **D. Another editor** | A TeX distribution with `latexmk`, Git | People attached to TeXstudio, Vim, Emacs... |
+| **C. Another editor** | A TeX distribution with `latexmk`, Git | People attached to TeXstudio, Vim, Emacs... |
 
 Whatever you choose, you need:
 
@@ -203,38 +202,27 @@ When VS Code opens:
 
 1. If it asks whether you trust the authors of the folder, click *Yes*.
 2. A notification offers to install the **recommended extensions**. Click
-   *Install*. The important one is **LaTeX Workshop**; the others add spell
-   checking (LTeX+), better Git history (GitLens) and consistent formatting
-   (EditorConfig).
+   *Install*. There are two: **LaTeX Workshop**, which builds and shows the
+   PDF, and **LTeX+**, which checks spelling and grammar.
 
 ### 4.5 Check that everything works
 
 In VS Code's terminal (`` Ctrl+` ``):
 
 ```powershell
-.\scripts\doctor.ps1      # Windows
-bash scripts/doctor.sh    # macOS / Linux
+latexmk --version
+pdflatex --version
 ```
 
-Every line should say `OK` (a `WARN` is information, not a problem). If Windows
-refuses to run the script, allow local scripts once and try again:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-```
+Both must answer. The first line of the second one should mention
+`TeX Live 2026`, the version GitHub uses to build the document. Another year or
+MiKTeX also works, but if the GitHub check fails while your local build passes,
+that difference is the first suspect.
 
 Then open `sections/01-introduction.tex`, press `Ctrl+S`, and open the PDF with
 `Ctrl+Alt+V`. If you see the document, the setup is complete.
 
-### 4.6 Option C: inside a container
-
-If you have Docker Desktop running, install the *Dev Containers* extension in
-VS Code, open the project, and click *Reopen in Container* when it's offered (or
-`Ctrl+Shift+P` → *Dev Containers: Reopen in Container*). You get exactly the same
-environment GitHub uses, without installing TeX Live. The first start downloads
-several GB.
-
-### 4.7 Option D: another editor
+### 4.6 Option C: another editor
 
 Clone the repository as in 4.4 and build with `latexmk` from the repository's main
 folder. It reads the build settings from `.latexmkrc`. Each file in `sections/`
@@ -306,27 +294,38 @@ The PDF is `build/main.pdf`. The `build/` folder is never uploaded.
 If the build fails, VS Code shows the errors in the *Problems* panel
 (`Ctrl+Shift+M`); the full log opens with `Ctrl+Alt+L`.
 
-### 6.2 Adding a section
+### 6.2 Title, authors, course and emails
 
-Create `sections/03-results.tex` starting with these lines:
+All of these are at the top of `main.tex`, in the block marked *Document data*.
+The course and assignment names fill the page header. Each author has an id and a
+symbol in `\author`, and the same id and symbol in `\authoremails`, which prints
+the emails in the first-page footer; clicking the symbol next to a name jumps to
+that email. When adding an author, add them in both places with matching id and
+symbol.
+
+### 6.3 Adding a section
+
+Create `sections/04-results.tex` starting with these lines:
 
 ```latex
 % !TEX root = ../main.tex
-\section{Resultados}
+\section{Results}
 \label{sec:results}
 ```
 
-and add `\input{sections/03-results}` in `main.tex` where it belongs.
+and add `\input{sections/04-results}` in `main.tex` where it belongs.
 
-### 6.3 Adding a figure
+### 6.4 Adding a figure
 
 Copy the file into `figures/` with a lowercase name without spaces or accents,
 for example `energy-spectrum.pdf`, and use it with
 `\includegraphics{energy-spectrum}` (no folder, no extension). Prefer PDF for plots
-and PNG/JPG for photos. Keep files reasonably small: Git keeps every version of a
+and PNG/JPG for photos. If a plot comes from a script, put the script in
+`figures/` with the same name as the plot, so anyone can regenerate or change it
+(see `figures/damped-oscillator.py`). Keep files reasonably small: Git keeps every version of a
 file forever, so a 40 MB image committed ten times stays 400 MB in the history.
 
-### 6.4 Adding a reference
+### 6.5 Adding a reference
 
 Get the BibTeX entry (Google Scholar → *Cite* → *BibTeX*, the journal's page, or
 <https://doi2bib.org>). First search `refs.bib` (`Ctrl+F`) to make sure it isn't
@@ -334,35 +333,41 @@ already there. Then paste it at the **end** of the file and change its key to
 `firstauthorYEARfirstword`, all lowercase: `hawking1975particle`.
 Cite it with `\cite{hawking1975particle}`.
 
-### 6.5 Cross-references
+### 6.6 Cross-references
 
 Label everything with a prefix (`sec:`, `eq:`, `fig:`, `tab:`) and refer with
-`\cref`, which writes the word for you: `\cref{fig:spectrum}` gives "figura 3".
-Use `\Cref` at the start of a sentence.
+`\cref`, which writes the word for you: `\cref{fig:spectrum}` gives "Fig. 3" and
+`\cref{eq:energy}` gives "Eq. (2)". At the start of a sentence use `\Cref`, which
+writes the full word: "Figure 3".
 
-### 6.6 Notes to co-authors
+### 6.7 Notes to co-authors
 
-`\todo{Check this sign.}` puts a note in the margin; `\todo[inline]{...}` puts it
-in the text. Before submission the project owner hides them all with one change in
+`\todo{Check this sign.}` puts a colored note box in the text (the margins are
+too narrow for margin notes). Before submission the project owner hides them all with one change in
 `preamble.tex`.
 
-### 6.7 History
+### 6.8 History
 
 - One file: right-click it → *Open Timeline*, or the *Timeline* section at the
   bottom of the Explorer panel. Click an entry to see what changed.
-- One line: GitLens shows who last changed each line and when.
+- One line: click a line and VS Code shows, at the end of the line or in the
+  status bar, who last changed it and when.
 - The whole project: [Commits](../../commits) on GitHub.
 
-To get a PDF comparing the current text with any earlier version:
+Every pull request already gets a marked-up PDF of its changes (section 7). To
+compare the current text with any other version yourself, for example the one
+sent to a journal (`v1.0`), a commit, or `origin/main`:
 
 ```powershell
-.\scripts\diff.ps1 v1.0           # Windows; or a commit, or origin/main
-bash scripts/diff.sh v1.0         # macOS / Linux
+.\.github\diff.ps1 v1.0           # Windows
+bash .github/diff.sh v1.0         # macOS / Linux
 ```
 
-The result is `build/diff.pdf`.
+The result is `build/diff.pdf`. If Windows refuses to run the script, allow local
+scripts once with `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` and try
+again.
 
-### 6.8 Writing at the same time as someone else
+### 6.9 Writing at the same time as someone else
 
 For most work, separate branches are enough: two people can edit different parts
 of the same file at the same time, and Git combines the changes when both are
@@ -374,7 +379,7 @@ extension, clicks *Live Share* in the status bar and sends the link; the others
 join from VS Code or a browser and type in the same files in real time. The host
 commits at the end.
 
-### 6.9 Keeping your branch up to date
+### 6.10 Keeping your branch up to date
 
 If `main` changed while you were working on your branch, bring those changes in:
 *Source Control* → `...` → *Branch* → *Merge...* → choose `origin/main`. If both
@@ -405,7 +410,7 @@ These are what make collaboration through Git painless. Please follow them.
    auto-formatting of other people's paragraphs: it turns your one-word fix into a
    hundred changed lines and causes conflicts.
 3. **Packages and macros go in `preamble.tex`**, nowhere else.
-4. **References go at the end of `refs.bib`**, with the key convention from 6.4.
+4. **References go at the end of `refs.bib`**, with the key convention from 6.5.
 5. **Figures go in `figures/`**, lowercase, no spaces, no accents.
 6. **Labels have a prefix** and are referenced with `\cref`.
 7. **Pull before you start** and **commit and push before you stop**, so others see
@@ -426,9 +431,8 @@ changing it.
 | `main.tex` | Skeleton: title, authors, the list of sections, bibliography |
 | `preamble.tex` | All packages and custom commands |
 | `sections/` | The text, one file per section |
-| `figures/` | Images and plots |
+| `figures/` | Images and plots, and the scripts that generate plots |
 | `refs.bib` | Bibliography entries |
-| `tex/` | Special `.sty`, `.cls`, `.bst` files (e.g. a journal's class). LaTeX finds them automatically |
 
 **Configuration**
 
@@ -437,14 +441,13 @@ changing it.
 | `.latexmkrc` | How the document is built (engine, bibliography, output folder). Used by VS Code, the terminal and GitHub alike |
 | `.gitignore` | Files Git must never upload (build output, auxiliary files) |
 | `.gitattributes` | Makes line endings identical on Windows, macOS and Linux |
-| `.editorconfig` | Basic editor behaviour: UTF-8, line endings, final newline |
 | `.vscode/settings.json` | Tells LaTeX Workshop to build with `.latexmkrc` and disables auto-formatting |
 | `.vscode/extensions.json` | The extensions VS Code offers to install |
-| `.devcontainer/` | The environment for Codespaces and option C (same as GitHub's) |
+| `.devcontainer.json` | The environment Codespaces creates (same TeX Live as GitHub's build) |
 | `.github/workflows/build.yml` | The automatic build (see below) |
 | `.github/pull_request_template.md` | The checklist that appears in every new pull request |
-| `scripts/doctor.*` | Checks your computer's setup |
-| `scripts/diff.*` | Creates a marked-up PDF comparing two versions |
+| `.github/diff.sh`, `.github/diff.ps1` | Create a marked-up PDF comparing two versions (section 6.8) |
+| `.github/MAINTAINER.md` | Notes for the project owner; collaborators can ignore it |
 
 **The automatic build ("CI").** Every time someone pushes, GitHub compiles the
 document on a fresh machine with TeX Live and reports ✓ or ✗. It also fails if any
@@ -458,7 +461,7 @@ document is correct, whatever is installed on anyone's computer.
 **Does everyone need the same LaTeX installation?**
 No. GitHub's build is the reference. TeX Live of the current year matches it best,
 an up-to-date MiKTeX is fine in practice, and Codespaces is identical by
-construction. The doctor script tells you how close you are.
+construction. `pdflatex --version` tells you which one you have.
 
 **It compiles on my computer but the check on GitHub is red.**
 Click the ✗ → *Details* to read the log. The usual causes:
@@ -468,7 +471,7 @@ Click the ✗ → *Details* to read the log. The usual causes:
   and fails on GitHub.
 - *An undefined reference or citation.* Search the log for `undefined`.
 - *A package your computer installed silently* (MiKTeX does this). If it isn't a
-  standard package, its `.sty` belongs in `tex/`.
+  standard package, put its `.sty` file next to `main.tex` and commit it.
 - *A font installed on your computer.* It doesn't exist on GitHub. Use fonts that
   come with TeX Live.
 

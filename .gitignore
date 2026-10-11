@@ -33,3 +33,6 @@ diff.tex
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Python
+__pycache__/

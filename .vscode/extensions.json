@@ -1,8 +1,6 @@
 {
   "recommendations": [
     "James-Yu.latex-workshop",
-    "ltex-plus.vscode-ltex-plus",
-    "eamodio.gitlens",
-    "EditorConfig.EditorConfig"
+    "ltex-plus.vscode-ltex-plus"
   ]
 }
