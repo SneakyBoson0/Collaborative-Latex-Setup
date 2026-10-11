@@ -2,22 +2,16 @@
 
 This file is for whoever owns the template. Collaborators read the README.
 
-## Publish the template (once)
+## The template repository
 
-```bash
-cd latex-collab-template
-git init -b main
-git add -A
-git commit -m "LaTeX collaboration template"
-gh repo create latex-collab-template --private --source . --push
-```
-
-Then on GitHub: *Settings* → *General* → tick **Template repository**.
+The template lives at `SneakyBoson0/Collaborative-Latex-Setup`. To let GitHub
+offer *Use this template*, tick **Template repository** once in *Settings* →
+*General* (or run `gh repo edit SneakyBoson0/Collaborative-Latex-Setup --template`).
 
 ## Start a new project from it
 
 ```bash
-gh repo create my-new-paper --private --template OWNER/latex-collab-template --clone
+gh repo create my-new-paper --private --template SneakyBoson0/Collaborative-Latex-Setup --clone
 cd my-new-paper
 ```
 
@@ -25,13 +19,19 @@ or on GitHub: *Use this template* → *Create a new repository*.
 
 Then, in the new repo:
 
-1. Replace `OWNER/REPO` everywhere in the README (badge and clone command) and
-   the project title at the top:
+1. Point the README at the new repository: the badge, the clone command and the
+   folder name still name the template, and the title is a placeholder.
 
    ```powershell
-   (Get-Content README.md -Raw) -replace 'OWNER/REPO','your-user/my-new-paper' -replace 'Project title','Real title' |
+   (Get-Content README.md -Raw) `
+     -replace 'SneakyBoson0/Collaborative-Latex-Setup','your-user/my-new-paper' `
+     -replace 'cd Collaborative-Latex-Setup','cd my-new-paper' `
+     -replace 'Project title','Real title' |
      Set-Content README.md -NoNewline -Encoding utf8NoBOM
    ```
+
+   If you skip this, the badge shows the template's build status instead of the
+   project's, and collaborators clone the wrong repository.
 2. Fill in the *Document data* block of `main.tex` (course, assignment, title,
    authors, emails). Delete the example sections and `figures/damped-oscillator.pdf`
    with its script, but only after the checks in *Test drive* below pass.
@@ -129,7 +129,7 @@ Projects created from a template don't track it. To pull an improvement into an
 existing project, copy the changed file(s) by hand, or:
 
 ```bash
-git remote add template https://github.com/OWNER/latex-collab-template.git
+git remote add template https://github.com/SneakyBoson0/Collaborative-Latex-Setup.git
 git fetch template
 git checkout template/main -- .github/workflows/build.yml .latexmkrc
 ```

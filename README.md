@@ -1,6 +1,6 @@
 # Project title
 
-![LaTeX build](https://github.com/OWNER/REPO/actions/workflows/build.yml/badge.svg)
+[![LaTeX build](https://github.com/SneakyBoson0/Collaborative-Latex-Setup/actions/workflows/build.yml/badge.svg)](../../actions/workflows/build.yml)
 
 **📄 [Read the latest PDF](../../blob/pdf/main.pdf)** · [Finished versions](../../releases) · [Package guide](PACKAGES.md)
 
@@ -132,8 +132,8 @@ Then download the project and open it:
 ```powershell
 mkdir $HOME\Documents\GitHub -Force
 cd $HOME\Documents\GitHub
-gh repo clone OWNER/REPO
-cd REPO
+gh repo clone SneakyBoson0/Collaborative-Latex-Setup
+cd Collaborative-Latex-Setup
 code .
 ```
 
@@ -348,7 +348,7 @@ Open the pull request on GitHub.
 | The official version (`main`) | **[Read the latest PDF](../../blob/pdf/main.pdf)**, updated a couple of minutes after each merge |
 | Track changes for a pull request | The pull request → *Checks* → *LaTeX* → *Artifacts* → `diff-pdf` |
 | Any other branch | *Actions* tab → the run for that branch → *Artifacts* → `pdf` (a zip) |
-| Finished versions (`v1.0`, ...) | *Releases*, on the right of the repository page |
+| Finished versions (`v1.0`, ...) | *Releases*, on the right of the repository page. Empty until the owner publishes one (below) |
 
 **How GitHub builds it.** Every upload starts a run on GitHub's servers, listed in
 the [Actions](../../actions) tab. The run downloads the project into a clean
@@ -359,8 +359,22 @@ the PDF is then copied to a branch called `pdf`, which is what the link above
 opens. Locally an unknown reference only shows as `??`, so GitHub's check is the
 reliable one.
 
+**Publishing a finished version** (project owner). When a version is final, for
+example the one you send to a journal, give it a name (a *tag*) and upload it:
+
+```powershell
+git switch main
+git pull
+git tag -a v1.0 -m "Version sent to the journal"
+git push origin v1.0
+```
+
+About two minutes later it appears under *Releases* with its PDF attached, and it
+stays there permanently, even as `main` keeps changing. Use `v1.1`, `v2.0` and so
+on for later versions.
+
 To get a marked-up PDF comparing the current text with an older version yourself
-(for example the one sent to a journal, tagged `v1.0`):
+(for example the one tagged `v1.0`):
 
 ```powershell
 .\.github\diff.ps1 v1.0        # Windows
